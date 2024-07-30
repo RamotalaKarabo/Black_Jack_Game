@@ -1,51 +1,75 @@
-//Declaring global variables
-let firstCard =  generateNumber();
-let secondCard =  generateNumber();
+let firstCard = 0;
+let secondCard = 0;
+let cards = [];
 let sumOfCards = 0;
-let displayCardsEl = document.getElementById("display-cards");
-let displaySumEl = document.getElementById("display-cards-sum");
-let displayMessageEl = document.getElementById("display-message");
-let gameCards = [firstCard,secondCard];
 let isAlive = false;
 let hasBlackJack = false;
+let message = " ";
+let displayMessageEl=document.getElementById("display-message-el");
+let displayCardsEl =document.getElementById("display-cards-el") ;
+let displaySumEl= document.getElementById("display-sum-el");
 
-//Declaring and defining methods and implementation
 
-//Generates a random number between (1-11)
-function generateNumber(){
+function generateRandomNumber(){
   return Math.floor(Math.random()*11)+1;
 }
 
-
 function renderGame(){
-  let message = "";
 
-  for(counter of gameCards){
-    sumOfCards +=counter;
+  sumOfCards = 0;
+
+  for(counter of cards){
+    sumOfCards += counter;
   }
 
-  if (sumOfCards < 21 && isAlive===true){
-    message="Do you want to draw another card?";
-  } else if(sumofCards === 21){
-    message = "You got the black jack";
-  } else if(sumCards>21 && isAlive===true){
-    message= "You are out of the game!!!";
-    isAlive=false;
+  if(isAlive === true){
+    if(sumOfCards < 21){
+      message = "Do you want to draw a card? ";
+    } else if(sumOfCards === 21){
+      message = "You've got the Black Jack. ";
+      hasBlackJack = true;
+    } 
+  } else if(sumOfCards>21){
+    message = "You're out of the game";
+    isAlive = false;
   }
+}
 
+function displayContent(){
   displayMessageEl.textContent = message;
+
+  displayCardsEl.textContent = " ";
+  for(counter of cards){
+    displayCardsEl.textContent += counter + " - ";
+  }
+
+  displaySumEl.textContent = sumOfCards;
 }
 
 function startGame(){
-  for(counter of gameCards){
-    displayCardsEl.textContent += counter + " - ";
-  }
+  isAlive = true;
+  firstCard = generateRandomNumber();
+  secondCard = generateRandomNumber();
+  cards = [firstCard , secondCard];
   renderGame();
+  console.log("isAlive : "+isAlive);
+  console.log("hasBlackJack : " + hasBlackJack);
+  console.log(message)
+  displayContent();
 }
-
 
 function generateNewCard(){
-  let newCard = randomNumber;
-  gameCards.push(newCard);
+  let newCard = generateRandomNumber();
+  cards.push(newCard);
   renderGame();
+  console.log("isAlive : "+isAlive);
+  console.log("hasBlackJack : " + hasBlackJack);
+  console.log(message)
+  displayContent();
 }
+
+
+
+
+
+
